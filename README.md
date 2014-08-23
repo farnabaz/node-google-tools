@@ -4,6 +4,13 @@
 
     var google = require('google-tools');
 
+    // Get crowler access time
+    google.accesstime({
+      url: 'http://www.github.com/'
+    }, function(err, r) {
+        console.log(err, r);
+    });
+
     // Get pagerank
     google.pagerank({
       url: 'http://www.github.com/'

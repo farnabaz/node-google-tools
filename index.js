@@ -60,7 +60,7 @@ var google = {
         });
     },
 
-    cacheTime: function(p, cb) {
+    accesstime: function(p, cb) {
       request('http://webcache.googleusercontent.com/search?q=cache:'
           + p.url.replace(/(https?:\/\/)?(www\.)?([^\/]*).*/, '$3')
           + '&cd=1&hl=en&ct=clnk&gl=us', function(err, res, body) {
