@@ -1,5 +1,6 @@
 var PageRank = require('pagerank'),
-    async = require('async');
+    async = require('async'),
+    request = require('request');
 
 var google = {
 
@@ -57,7 +58,24 @@ var google = {
 
             cb(null, -1);
         });
+    },
+
+    cacheTime: function(p, cb) {
+      request('http://webcache.googleusercontent.com/search?q=cache:'
+          + p.url.replace(/(https?:\/\/)?(www\.)?([^\/]*).*/, '$3')
+          + '&cd=1&hl=en&ct=clnk&gl=us', function(err, res, body) {
+        if(err) { 
+          return cb(err, null);
+        } else if (res.statusCode != 200) {
+            return callback('Error: code '+res.statusCode, null);
+        }
+
+        var dateString = body.match(/snapshot of the page as it appeared on ([^\.]*)\./)[0].replace(/.*on ([^\.]*)\./, '$1');
+
+        cb(null, new Date(dateString).getTime());
+      });
     }
+
 };
 
 module.exports = google;
